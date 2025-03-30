@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Projeto Orquídea Inteligente</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        header {
+            background: #8e44ad;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #8e44ad;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        code {
+            background: #ecf0f1;
+            padding: 5px;
+            border-radius: 5px;
+            display: block;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+            background: #8e44ad;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Projeto Orquídea Inteligente</h1>
+        <p>Monitoramento de umidade e cuidado automatizado para plantas sensíveis.</p>
+    </header>
+
+    <div class="container">
+        <h2>1. Visão Geral</h2>
+        <p>O projeto de orquídea inteligente utiliza sensores e LEDs para monitorar a saúde e a umidade do substrato da planta, garantindo que ela receba o cuidado ideal. Este sistema é ideal para orquídeas em vasos com cascalho original.</p>
+    </div>
+
+    <div class="container">
+        <h2>2. Componentes Necessários</h2>
+        <ul>
+            <li>Sensor de Umidade MH séries</li>
+            <li>LEDs (Vermelho, Amarelo, Azul, Verde, Branco)</li>
+            <li>Resistores de 220Ω</li>
+            <li>Arduino Nano</li>
+            <li>Regulador LM7805</li>
+            <li>Bateria de 9V e conector</li>
+            <li>Protoboard e jumpers</li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <h2>3. Funcionamento</h2>
+        <p>O sistema monitora os níveis de umidade e indica o estado do substrato com base em cores:</p>
+        <ul>
+            <li><strong>Vermelho:</strong> Solo muito seco, é necessário regar.</li>
+            <li><strong>Amarelo:</strong> Solo levemente seco, atenção à próxima rega.</li>
+            <li><strong>Azul:</strong> Umidade moderada, estado aceitável.</li>
+            <li><strong>Verde:</strong> Umidade ideal, a planta está saudável.</li>
+            <li><strong>Branco:</strong> Solo muito úmido, pare de regar.</li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <h2>4. Código Arduino</h2>
+        <p>Este é o código que controla os LEDs com base nos sinais do sensor de umidade:</p>
+        <code>
+const int sensorPin = A0;
+const int leds[] = {2, 3, 4, 5, 6};
+const int thresholds[] = {300, 500, 700, 900};
+
+void setup() {
+    for (int i = 0; i < 5; i++) {
+        pinMode(leds[i], OUTPUT);
+    }
+    Serial.begin(9600);
+}
+
+void loop() {
+    int moisture = analogRead(sensorPin);
+    Serial.print("Umidade: ");
+    Serial.println(moisture);
+
+    for (int i = 0; i < 5; i++) {
+        if (i == 4 || moisture < thresholds[i]) {
+            digitalWrite(leds[i], HIGH);
+        } else {
+            digitalWrite(leds[i], LOW);
+        }
+    }
+
+    delay(2000);
+}
+        </code>
+    </div>
+
+    <div class="container">
+        <h2>5. Cuidados com a Orquídea</h2>
+        <ul>
+            <li>Mantenha o vaso em local iluminado, mas longe da luz solar direta.</li>
+            <li>Verifique os níveis de umidade regularmente.</li>
+            <li>Regue apenas quando os LEDs indicarem necessidade (vermelho ou amarelo).</li>
+            <li>Limpe o sensor de umidade com frequência para garantir leituras precisas.</li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Blog do Projeto Orquídea Inteligente - Monitorando para uma planta mais saudável.</p>
+    </footer>
+</body>
+</html>
